@@ -21,7 +21,7 @@ namespace Controllers
         protected Rigidbody2D playerRigidbody;
 
         private float direction = 0.0f;
-        
+
         public void Move(InputAction.CallbackContext context)
         {
             if (!player || !playerRigidbody) return;
