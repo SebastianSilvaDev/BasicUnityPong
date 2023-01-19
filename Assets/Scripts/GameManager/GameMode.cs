@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.Versioning;
 using Controllers;
 using UnityEngine;
-using Quaternion = System.Numerics.Quaternion;
 
 namespace GameManager
 {

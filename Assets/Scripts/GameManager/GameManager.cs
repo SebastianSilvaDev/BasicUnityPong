@@ -12,6 +12,14 @@ namespace GameManager
         
         public GameMode GameMode => gameMode;
 
+        private bool _hasFinishedInitializing = false;
+
+        public bool HasFinishedInitializing => _hasFinishedInitializing;
+        
+        public delegate void OnFinishInitializing();
+
+        public OnFinishInitializing finishInitializing;
+        
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -26,6 +34,8 @@ namespace GameManager
         private void Start()
         {
             InitializeGame();
+            _hasFinishedInitializing = true;
+            finishInitializing();
         }
 
         public void OverrideGameMode(GameMode newGameMode)
@@ -33,6 +43,8 @@ namespace GameManager
             gameMode.FinishGameMode();
             gameMode = newGameMode;
             gameMode.InitializeGameMode(gameObject);
+            _hasFinishedInitializing = true;
+            finishInitializing();
         }
 
         public void InitializeGame()
