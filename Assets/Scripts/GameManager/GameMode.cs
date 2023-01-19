@@ -59,5 +59,17 @@ namespace GameManager
             GameObject newPlayerController = Instantiate(playerControllerPrefab);
             playerControllers.Add(newPlayerController);
         }
+
+        public GameObject GetPlayer(int index)
+        {
+            if (index >= players.Count) return null;
+            return players[index];
+        }
+
+        public GameObject GetPlayerController(int index)
+        {
+            if (index >= playerControllers.Count) return null;
+            return playerControllers[index];
+        }
     }
 }
