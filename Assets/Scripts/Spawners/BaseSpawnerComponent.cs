@@ -10,7 +10,7 @@ namespace Spawners
         
         private GameManager.GameManager _gameManager;
         
-        protected GameObject spawnedBall;
+        protected GameObject spawnedObject;
         
         private void Start()
         {
@@ -24,15 +24,17 @@ namespace Spawners
             Spawn();
         }
 
-        void Spawn()
+        public void Spawn()
         {
             // Default Pooling of Objects for spawner
-            if (!spawnedBall)
+            if (!spawnedObject)
             {
-                spawnedBall = Instantiate(gameObjectToSpawn, transform);
+                spawnedObject = Instantiate(gameObjectToSpawn, transform);
+                ISpawnedControllerInterface spawnedControllerInterface = spawnedObject.GetComponent(typeof(ISpawnedControllerInterface)) as ISpawnedControllerInterface;
+                spawnedControllerInterface.ISetSpawner(this);
                 return;
             }
-            spawnedBall.transform.position = transform.position;
+            spawnedObject.transform.position = transform.position;
         }
     }
 }

@@ -19,6 +19,11 @@ namespace GameManager
         public delegate void OnFinishInitializing();
 
         public OnFinishInitializing finishInitializing;
+
+        [SerializeField]
+        private ScoreManager scoreManager;
+
+        public ScoreManager ScoreManager => scoreManager;
         
         private void Awake()
         {

@@ -1,3 +1,4 @@
+using Spawners;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine.Assertions;
 
 namespace Controllers
 {
-    public class BallController : MonoBehaviour
+    public class BallController : MonoBehaviour, ISpawnedControllerInterface
     {
         [SerializeField] private Rigidbody2D ballRigidBody;
 
@@ -15,7 +16,19 @@ namespace Controllers
         private Vector2 _currentForce = Vector2.zero;
 
         public Vector2 CurrentForce => _currentForce;
-        
+
+        private BaseSpawnerComponent _spawner;
+
+        public void IRequestReespawn()
+        {
+            _spawner.Spawn();
+        }
+
+        public void ISetSpawner(BaseSpawnerComponent spawner)
+        {
+            _spawner = spawner;
+        }
+
         // Start is called before the first frame update
         private void Start()
         {
