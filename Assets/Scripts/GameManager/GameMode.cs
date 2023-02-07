@@ -10,17 +10,15 @@ namespace GameManager
     [CreateAssetMenu(fileName = "GameMode", menuName = "ScriptableObject/GameModeObject")]
     public class GameMode : ScriptableObject
     {
-        [SerializeField]
-        protected GameObject playerPrefab;
+        [SerializeField] protected List<GameObject> playerPrefabs;
 
-        [SerializeField]
-        protected GameObject playerControllerPrefab;
-        
+        [SerializeField] protected List<GameObject> playerControllerPrefabs;
+
         protected PlayerSpawnLocation[] spawnPoints;
 
-        protected List<GameObject> players;
+        protected List<GameObject> players = new List<GameObject>();
 
-        protected List<GameObject> playerControllers;
+        protected List<GameObject> playerControllers = new List<GameObject>();
 
         public virtual void InitializeGameMode(GameObject manager)
         {
@@ -28,14 +26,16 @@ namespace GameManager
             if (spawnPoints.Length <= 0) return;
             CreateNewPlayerController();
             CreateNewPlayer();
-            PlayerController playerControllerComponent = playerControllers[0].GetComponent<PlayerController>();
-            if (!playerControllerComponent) return;
-            playerControllerComponent.PossesPlayer(players[0]);
+            for (int i = 0; i < playerControllers.Count; i++)
+            {
+                PlayerController playerControllerComponent = playerControllers[i].GetComponent<PlayerController>();
+                if (!playerControllerComponent) continue;
+                playerControllerComponent.PossesPlayer(players[i]);
+            }
         }
 
         public virtual void FinishGameMode()
         {
-            
         }
 
         // This could be changed by something other than Inheritance
@@ -45,8 +45,9 @@ namespace GameManager
             {
                 players.RemoveRange(0, players.Count);
             }
+
             Transform spawnTransform = spawnPoints[0].gameObject.transform;
-            GameObject newPlayer = Instantiate(playerPrefab, spawnTransform);
+            GameObject newPlayer = Instantiate(playerPrefabs[0], spawnTransform);
             players.Add(newPlayer);
         }
 
@@ -56,7 +57,8 @@ namespace GameManager
             {
                 playerControllers.RemoveRange(0, playerControllers.Count);
             }
-            GameObject newPlayerController = Instantiate(playerControllerPrefab);
+
+            GameObject newPlayerController = Instantiate(playerControllerPrefabs[0]);
             playerControllers.Add(newPlayerController);
         }
 
